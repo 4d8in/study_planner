@@ -3,6 +3,7 @@ import { createTask, deleteTask, fetchTasks, updateStatus, updateTask } from '..
 import Filters from '../components/Filters';
 import TaskList from '../components/TaskList';
 import TaskForm from '../components/TaskForm';
+import Pagination from '../components/Pagination';
 
 const TasksPage = () => {
   const [tasks, setTasks] = useState([]);
@@ -11,6 +12,8 @@ const TasksPage = () => {
   const [error, setError] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [editTask, setEditTask] = useState(null);
+  const [page, setPage] = useState(1);
+  const pageSize = 4;
 
   const subjects = useMemo(() => Array.from(new Set(tasks.map((t) => t.subject))), [tasks]);
 
@@ -29,6 +32,7 @@ const TasksPage = () => {
 
   useEffect(() => {
     load();
+    setPage(1); // reset pagination on filter change
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters.subject, filters.status, filters.priority, filters.search]);
 
@@ -90,7 +94,15 @@ const TasksPage = () => {
       {loading ? (
         <p className="text-center text-slate-600">Chargement...</p>
       ) : (
-        <TaskList tasks={tasks} onEdit={(t) => { setEditTask(t); setShowForm(true); }} onDelete={handleDelete} onToggle={handleToggle} />
+        <>
+          <TaskList
+            tasks={tasks.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize)}
+            onEdit={(t) => { setEditTask(t); setShowForm(true); }}
+            onDelete={handleDelete}
+            onToggle={handleToggle}
+          />
+          <Pagination page={page} pageSize={pageSize} total={tasks.length} onPageChange={setPage} />
+        </>
       )}
 
       {error && <p className="text-sm text-rose-600">{error}</p>}

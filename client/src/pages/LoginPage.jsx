@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import AuthLinks from '../components/AuthLinks';
 
 const LoginPage = () => {
   const { login, loading, error } = useAuth();
-  const [username, setUsername] = useState('student@example.com');
-  const [password, setPassword] = useState('changeme123');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPwd, setShowPwd] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -38,14 +40,24 @@ const LoginPage = () => {
           </div>
           <div>
             <label className="block text-sm font-medium text-slate-700">Mot de passe</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 focus:border-brand-500 focus:ring-2 focus:ring-brand-200"
-              placeholder="••••••••"
-              required
-            />
+            <div className="relative">
+              <input
+                type={showPwd ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 pr-20 focus:border-brand-500 focus:ring-2 focus:ring-brand-200"
+                placeholder="••••••••"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPwd((v) => !v)}
+                className="absolute inset-y-0 right-2 mt-1 text-xs text-brand-600"
+                aria-label="Afficher ou masquer le mot de passe"
+              >
+                {showPwd ? 'Masquer' : 'Afficher'}
+              </button>
+            </div>
           </div>
           {error && <p className="text-sm text-rose-600">{error}</p>}
           <button
@@ -55,9 +67,7 @@ const LoginPage = () => {
           >
             {loading ? 'Connexion...' : 'Se connecter'}
           </button>
-          <p className="text-xs text-slate-500 text-center">
-            Identifiants démo pré-remplis. Authentification simulée côté serveur.
-          </p>
+          <AuthLinks />
         </form>
       </div>
     </div>

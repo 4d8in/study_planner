@@ -7,9 +7,9 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('mystudyplanner_token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+  const access = localStorage.getItem('mystudyplanner_access');
+  if (access) {
+    config.headers.Authorization = `Bearer ${access}`;
   }
   return config;
 });

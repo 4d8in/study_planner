@@ -1,13 +1,14 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { loginRequest, logoutRequest } from '../services/auth';
+import { loginRequest, logoutRequest, refreshRequest } from '../services/auth';
 
 const AuthContext = createContext();
 
-const TOKEN_KEY = 'mystudyplanner_token';
+const ACCESS_KEY = 'mystudyplanner_access';
+const REFRESH_KEY = 'mystudyplanner_refresh';
 const USER_KEY = 'mystudyplanner_user';
 
 export function AuthProvider({ children }) {
-  const [token, setToken] = useState(() => localStorage.getItem(TOKEN_KEY));
+  const [access, setAccess] = useState(() => localStorage.getItem(ACCESS_KEY));
   const [user, setUser] = useState(() => {
     const stored = localStorage.getItem(USER_KEY);
     return stored ? JSON.parse(stored) : null;
@@ -19,10 +20,11 @@ export function AuthProvider({ children }) {
     setLoading(true);
     setError(null);
     try {
-      const { token: newToken, user: userData } = await loginRequest(username, password);
-      setToken(newToken);
+      const { access_token, refresh_token, user: userData } = await loginRequest(username, password);
+      setAccess(access_token);
       setUser(userData);
-      localStorage.setItem(TOKEN_KEY, newToken);
+      localStorage.setItem(ACCESS_KEY, access_token);
+      localStorage.setItem(REFRESH_KEY, refresh_token);
       localStorage.setItem(USER_KEY, JSON.stringify(userData));
       return true;
     } catch (err) {
@@ -35,13 +37,14 @@ export function AuthProvider({ children }) {
 
   const logout = async () => {
     try {
-      await logoutRequest();
+    await logoutRequest(localStorage.getItem(REFRESH_KEY));
     } catch (err) {
       console.warn('Logout error', err);
     }
-    setToken(null);
+    setAccess(null);
     setUser(null);
-    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(ACCESS_KEY);
+    localStorage.removeItem(REFRESH_KEY);
     localStorage.removeItem(USER_KEY);
   };
 
@@ -50,7 +53,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ token, user, loading, error, login, logout }}>
+    <AuthContext.Provider value={{ token: access, user, loading, error, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
