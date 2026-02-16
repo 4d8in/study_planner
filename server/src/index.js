@@ -5,6 +5,7 @@ const env = require('./config/env');
 const authRoutes = require('./routes/auth');
 const taskRoutes = require('./routes/tasks');
 const authMiddleware = require('./middleware/authMiddleware');
+const meRoutes = require('./routes/me');
 
 const app = express();
 
@@ -14,7 +15,8 @@ app.use(morgan('dev'));
 
 app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));
 app.use('/api/auth', authRoutes);
-app.use('/api/tasks', authMiddleware, taskRoutes);
+app.use('/api/me', authMiddleware(), meRoutes);
+app.use('/api/tasks', authMiddleware(), taskRoutes);
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found' });
@@ -25,6 +27,7 @@ app.use((err, _req, res, _next) => {
   res.status(500).json({ message: 'Server error' });
 });
 
-app.listen(env.port, () => {
-  console.log(`API running on port ${env.port}`);
+const host = process.env.HOST || '127.0.0.1';
+app.listen(env.port, host, () => {
+  console.log(`API running on http://${host}:${env.port}`);
 });
