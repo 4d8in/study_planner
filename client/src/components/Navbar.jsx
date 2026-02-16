@@ -1,0 +1,51 @@
+import React from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+
+const Navbar = () => {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/login');
+  };
+
+  const linkClass = ({ isActive }) =>
+    `px-3 py-2 rounded-md text-sm font-medium ${
+      isActive ? 'bg-brand-100 text-brand-700' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+    }`;
+
+  return (
+    <nav className="bg-white border-b border-slate-200">
+      <div className="container-responsive flex items-center justify-between h-14">
+        <div className="flex items-center gap-3">
+          <div className="h-9 w-9 rounded-lg bg-brand-600 text-white flex items-center justify-center font-semibold">MS</div>
+          <span className="font-semibold text-slate-900">MyStudyPlanner</span>
+        </div>
+        <div className="flex items-center gap-4">
+          <NavLink to="/dashboard" className={linkClass}>
+            Dashboard
+          </NavLink>
+          <NavLink to="/tasks" className={linkClass}>
+            Tâches
+          </NavLink>
+        </div>
+        <div className="flex items-center gap-3">
+          <div className="hidden sm:flex flex-col text-right">
+            <span className="text-sm font-medium text-slate-800">{user?.name || 'Étudiant'}</span>
+            <span className="text-xs text-slate-500">{user?.email}</span>
+          </div>
+          <button
+            onClick={handleLogout}
+            className="px-3 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-md"
+          >
+            Déconnexion
+          </button>
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;

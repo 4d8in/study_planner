@@ -1,0 +1,30 @@
+const express = require('express');
+const cors = require('cors');
+const morgan = require('morgan');
+const env = require('./config/env');
+const authRoutes = require('./routes/auth');
+const taskRoutes = require('./routes/tasks');
+const authMiddleware = require('./middleware/authMiddleware');
+
+const app = express();
+
+app.use(cors({ origin: env.corsOrigin, credentials: true }));
+app.use(express.json());
+app.use(morgan('dev'));
+
+app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));
+app.use('/api/auth', authRoutes);
+app.use('/api/tasks', authMiddleware, taskRoutes);
+
+app.use((req, res) => {
+  res.status(404).json({ message: 'Not found' });
+});
+
+app.use((err, _req, res, _next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: 'Server error' });
+});
+
+app.listen(env.port, () => {
+  console.log(`API running on port ${env.port}`);
+});

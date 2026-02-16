@@ -1,0 +1,9 @@
+const TASK_TYPES = ['DEVOIR', 'TP', 'PROJET'];
+const TASK_STATUS = ['EN_COURS', 'TERMINEE'];
+const TASK_PRIORITIES = ['BASSE', 'MOYENNE', 'HAUTE'];
+
+module.exports = {
+  TASK_TYPES,
+  TASK_STATUS,
+  TASK_PRIORITIES
+};
