@@ -18,12 +18,12 @@ const Navbar = () => {
 
   return (
     <nav className="bg-white border-b border-slate-200">
-      <div className="container-responsive flex items-center justify-between h-14">
+      <div className="container-responsive flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 py-2 sm:py-0">
         <div className="flex items-center gap-3">
           <div className="h-9 w-9 rounded-lg bg-brand-600 text-white flex items-center justify-center font-semibold">MS</div>
           <span className="font-semibold text-slate-900">MyStudyPlanner</span>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-4">
           <NavLink to="/dashboard" className={linkClass}>
             Dashboard
           </NavLink>
@@ -31,7 +31,7 @@ const Navbar = () => {
             Tâches
           </NavLink>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <div className="hidden sm:flex flex-col text-right">
             <span className="text-sm font-medium text-slate-800">{user?.name || 'Étudiant'}</span>
             <span className="text-xs text-slate-500">{user?.email}</span>
