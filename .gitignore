@@ -1,6 +1,5 @@
 # dependencies
 node_modules
-server/src/data/tasks.json
 
 # build
 build

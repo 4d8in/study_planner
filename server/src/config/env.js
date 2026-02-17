@@ -11,10 +11,8 @@ required.forEach((key) => {
 module.exports = {
   port: process.env.PORT || 5000,
   databaseUrl: process.env.DATABASE_URL,
-  supabaseUrl: process.env.SUPABASE_URL,
-  supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
-  demoUser: process.env.DEMO_USER,
-  demoPass: process.env.DEMO_PASS,
   tokenSecret: process.env.TOKEN_SECRET,
-  corsOrigin: process.env.CORS_ORIGIN || 'http://localhost:5173'
+  corsOrigin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+  accessTokenTtl: process.env.ACCESS_TOKEN_TTL || '15m',
+  refreshTokenDays: Number(process.env.REFRESH_TOKEN_DAYS || 7)
 };

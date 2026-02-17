@@ -1,8 +1,6 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const pool = require('../db/pool');
-const env = require('../config/env');
 const { generateRefreshToken, REFRESH_TTL_MS, signAccess } = require('../utils/tokens');
 
 const router = express.Router();
@@ -45,9 +43,9 @@ router.post('/refresh', async (req, res) => {
       'select rt."token", rt."expiresAt", u.id, u.email, u.role, u.name from "RefreshToken" rt join "User" u on u.id=rt."userId" where rt."token"=$1',
       [refresh_token]
     );
-    if (!rows.length || new Date(rows[0].expiresat) < new Date()) return res.status(401).json({ message: 'Invalid refresh token' });
+    if (!rows.length || new Date(rows[0].expiresAt) < new Date()) return res.status(401).json({ message: 'Invalid refresh token' });
     const user = rows[0];
-    const access = jwt.sign({ sub: user.id, role: user.role, email: user.email }, env.tokenSecret, { expiresIn: '15m' });
+    const access = signAccess(user);
     res.json({ access_token: access });
   } catch (err) {
     console.error(err);

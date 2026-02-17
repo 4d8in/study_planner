@@ -27,7 +27,7 @@ app.use((err, _req, res, _next) => {
   res.status(500).json({ message: 'Server error' });
 });
 
-const host = process.env.HOST || '127.0.0.1';
+const host = process.env.HOST || '0.0.0.0';
 app.listen(env.port, host, () => {
   console.log(`API running on http://${host}:${env.port}`);
 });

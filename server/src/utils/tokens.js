@@ -2,8 +2,8 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const env = require('../config/env');
 
-const ACCESS_TTL = '15m';
-const REFRESH_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
+const ACCESS_TTL = env.accessTokenTtl;
+const REFRESH_TTL_MS = env.refreshTokenDays * 24 * 60 * 60 * 1000;
 
 function signAccess(user) {
   return jwt.sign({ sub: user.id, role: user.role, email: user.email }, env.tokenSecret, { expiresIn: ACCESS_TTL });
