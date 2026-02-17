@@ -18,10 +18,10 @@ const Navbar = () => {
 
   return (
     <nav className="bg-white border-b border-slate-200">
-      <div className="container-responsive flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 py-2 sm:py-0">
+      <div className="container-responsive flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 py-3 sm:py-4">
         <div className="flex items-center gap-3">
-          <div className="h-9 w-9 rounded-lg bg-brand-600 text-white flex items-center justify-center font-semibold">MS</div>
-          <span className="font-semibold text-slate-900">MyStudyPlanner</span>
+          <div className="h-10 w-10 rounded-xl bg-brand-600 text-white flex items-center justify-center font-semibold">MS</div>
+          <span className="font-semibold text-slate-900 text-base sm:text-lg">MyStudyPlanner</span>
         </div>
         <div className="flex flex-wrap items-center gap-2 sm:gap-4">
           <NavLink to="/dashboard" className={linkClass}>
