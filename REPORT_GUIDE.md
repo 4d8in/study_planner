@@ -8,7 +8,7 @@ Ce guide propose une structure claire pour le rapport académique L3. Adaptez ch
 
 ## 2. Analyse des exigences
 - Authentification (login/logout, tokens).
-- CRUD des tâches + bascule statut.
+- CRUD des tâches par utilisateur + bascule statut.
 - Filtres (matière, statut, priorité, recherche).
 - Tableau de bord global.
 - Architecture frontend/backend avec base Postgres.

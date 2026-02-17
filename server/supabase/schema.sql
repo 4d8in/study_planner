@@ -28,6 +28,7 @@ create table if not exists tasks (
   status text not null check (status in ('EN_COURS', 'TERMINEE')),
   priority text not null check (priority in ('BASSE', 'MOYENNE', 'HAUTE')),
   due_date date,
+  user_id uuid not null references "User"(id) on delete cascade,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -38,3 +39,4 @@ create index if not exists idx_tasks_subject on tasks(subject);
 create index if not exists idx_tasks_status on tasks(status);
 create index if not exists idx_tasks_priority on tasks(priority);
 create index if not exists idx_tasks_due_date on tasks(due_date);
+create index if not exists idx_tasks_user_id on tasks(user_id);

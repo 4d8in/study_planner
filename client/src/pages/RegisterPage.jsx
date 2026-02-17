@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { registerRequest } from '../services/auth';
-import { useAuth } from '../context/AuthContext';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
   const [form, setForm] = useState({ email: '', password: '', name: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);

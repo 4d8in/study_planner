@@ -1,11 +1,11 @@
 # MyStudyPlanner
 
-Application web académique pour gérer devoirs, TP et projets par matière. Architecture propre React (Vite) → Express REST → Postgres (Supabase). Authentification JWT + refresh tokens, filtres, dashboard, pagination, CRUD complet des tâches.
+Application web académique pour gérer devoirs, TP et projets par matière. Architecture React (Vite) → Express REST → Postgres (Supabase). Authentification JWT + refresh tokens, filtres, dashboard, pagination, CRUD complet des tâches par utilisateur.
 
 ## Fonctionnalités
 - Authentification avec JWT + refresh token (login / logout / refresh)
 - Inscription + profil (mise à jour nom / mot de passe)
-- CRUD tâches + bascule statut (EN_COURS/TERMINEE)
+- CRUD tâches par utilisateur + bascule statut (EN_COURS/TERMINEE)
 - Organisation par matière + filtres (matière, statut, priorité, recherche)
 - Dashboard (stats + échéances à venir) + pagination (4 tâches/page)
 - UI responsive (Tailwind) + React Router + Context
@@ -113,7 +113,7 @@ Authorization: Bearer <access_token>
 ```
 
 ## API (Tâches)
-- `GET /api/tasks` (query: `subject`, `status`, `priority`, `search`)
+- `GET /api/tasks` (query: `subject`, `status`, `priority`, `search`) → retourne uniquement les tâches de l’utilisateur connecté (admin voit tout)
 - `GET /api/tasks/:id`
 - `POST /api/tasks`
 - `PUT /api/tasks/:id`
